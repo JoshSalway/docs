@@ -1,0 +1,6 @@
+extends: existence
+message: "Consider simplifying wording."
+level: suggestion
+tokens:
+  - utilize
+  - in order to

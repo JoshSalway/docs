@@ -1,0 +1,63 @@
+name: Docs Prose Bot (spellcheck + style)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC
+  push:
+    paths:
+      - ".github/workflows/docs-prose-bot.yml"
+      - ".cspell.json"
+      - ".vale.ini"
+      - ".vale/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prose:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install CSpell
+        run: npm i -g cspell@latest
+
+      - name: Install Vale
+        run: |
+          curl -fsSL https://github.com/errata-ai/vale/releases/latest/download/vale_3.7.1_Linux_64-bit.tar.gz -o vale.tar.gz
+          tar -xzf vale.tar.gz vale
+          sudo mv vale /usr/local/bin/vale
+          vale --version
+
+      - name: Run CSpell (autofix)
+        # CSpell can auto-fix some simple typos depending on dictionaries.
+        run: |
+          cspell --config .cspell.json "**/*.md" --no-progress --show-context --show-suggestions --fail-fast false || true
+          cspell --config .cspell.json "**/*.md" --no-progress --fix || true
+
+      - name: Run Vale (report-only)
+        run: |
+          vale --output=line .
+
+      - name: Create PR if changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(docs): automated spelling fixes"
+          title: "chore(docs): automated spelling fixes"
+          body: |
+            Automated spelling fixes via CSpell.
+            Vale ran in report-only mode (no rewrites).
+          branch: "bot/docs-prose-fixes"
+          delete-branch: true
+          labels: "automation,docs"
