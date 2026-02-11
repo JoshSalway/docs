@@ -1,0 +1,60 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "useGitignore": true,
+  "dictionaries": [
+    "en_US",
+    "softwareTerms",
+    "companies",
+    "php",
+    "node"
+  ],
+  "words": [
+    "Argon2id",
+    "Artisan",
+    "Bcrypt",
+    "Blade",
+    "Cashier",
+    "Eloquent",
+    "Fortify",
+    "Laravel",
+    "Livewire",
+    "Mailhog",
+    "Mailpit",
+    "Middleware",
+    "MySQL",
+    "Pest",
+    "Polyfill",
+    "Postgres",
+    "Redis",
+    "Sail",
+    "Sanctum",
+    "Scout",
+    "Spark",
+    "SQLite",
+    "Tinker",
+    "UUID",
+    "Valet",
+    "Vite",
+    "dotenv",
+    "env"
+  ],
+  "ignorePaths": [
+    "**/vendor/**",
+    "**/node_modules/**",
+    "**/.git/**"
+  ],
+  "files": [
+    "**/*.md"
+  ],
+  "enableFiletypes": [
+    "markdown"
+  ],
+  "ignoreRegExpList": [
+    "/`{1,3}[^`]*`{1,3}/g",
+    "/```[\\s\\S]*?```/g",
+    "/^\\s*\\$\\s+.*$/gm",
+    "/^\\s*#include.*$/gm",
+    "/^\\s*\\|.*\\|\\s*$/gm"
+  ]
+}
