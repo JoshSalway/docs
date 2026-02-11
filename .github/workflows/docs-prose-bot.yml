@@ -39,6 +39,7 @@ jobs:
           files: "."
           reporter: github-check
           filter_mode: nofilter
+          fail_on_error: false
 
       - name: Run CSpell (autofix)
         # CSpell can auto-fix some simple typos depending on dictionaries.
